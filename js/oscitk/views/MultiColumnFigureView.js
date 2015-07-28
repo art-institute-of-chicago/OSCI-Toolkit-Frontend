@@ -30,10 +30,10 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 			//display figures except for ones with display set to none
 			var modelData = this.model.toJSON();
 			if (modelData.position.vertical !== "n") {
-				this.$el.css("visibility", "visible");
+				this.$el.css("display", "block");
 			}		
         } else {
-            this.$el.css("visibility", "hidden");
+            this.$el.css("display", "none");
         }
     },
     render: function() {
