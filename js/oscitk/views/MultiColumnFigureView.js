@@ -68,7 +68,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 
         //if element should not be visible on the page, hide it and return
         if (modelData.position.vertical === "n") {
-			this.$el.css("visibility", "hidden");
+			this.$el.css("display", "none");
             return true;
         }
 
