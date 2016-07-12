@@ -1479,16 +1479,9 @@ LayeredImage.prototype.resetZoomRange = function(zoomMin) {
     zoomMin = zoomMin || 0;
     var zoomMax = 0;
     for (var i=0, count = this.layers.length; i < count; i++) {
-        if (this.layers[i].type == 'iip') {
-            if (this.layers[i].zoom_levels - 1 > zoomMax) {
-                zoomMax = this.layers[i].zoom_levels - 1;
-            }
-        }
-        else {
-            if (this.layers[i].zoom_levels > zoomMax) {
-                zoomMax = this.layers[i].zoom_levels;
-            }
-        }
+		if (this.layers[i].zoom_levels > zoomMax) {
+			zoomMax = this.layers[i].zoom_levels;
+		}  
     }
     this.map.zoomRange([zoomMin, zoomMax]);
 
