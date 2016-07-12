@@ -32,10 +32,12 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 			if (modelData.position.vertical !== "n") {
 				this.$el.css("visibility", "visible");
 				this.$el.css("opacity", "1");
+				this.$el.css("z-index", "1");
 			}		
         } else {
             this.$el.css("visibility", "hidden");
 			this.$el.css("opacity", "0");
+			this.$el.css("z-index", "-1");
         }
     },
     render: function() {
@@ -72,6 +74,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
         if (modelData.position.vertical === "n") {
 			this.$el.css("visibility", "hidden");
 			this.$el.css("opacity", "0");
+			this.$el.css("z-index", "-1");
             return true;
         }
 
