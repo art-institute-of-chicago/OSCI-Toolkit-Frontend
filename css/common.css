@@ -174,7 +174,6 @@ table ul.links li {
 	display:none!important;
 }
 .ui-tooltip, .qtip {
-	width:auto!important;
 	margin-left:-10px;
 }
 

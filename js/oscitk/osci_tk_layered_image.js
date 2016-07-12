@@ -343,6 +343,13 @@ function tooltips(e) {
   for (var i = 0; i < e.features.length; i++) {
     var f = e.features[i];
     $(f.element).each(function() {
+		//controlling width of tooltips if needed
+		var tipWidth = f.data.properties.width;
+		//default tip style
+		var tipStyle = 'qtip-map';
+		if (f.data.properties.style) {
+			tipStyle = f.data.properties.style;
+		}
 		$(this).qtip({
 			content: {
         		text: f.data.properties.html
@@ -360,13 +367,14 @@ function tooltips(e) {
 					}
 				},
 			position: {
-				target: 'mouse',
-				adjust: {
-					mouse:false
-					},
-				my: 'top left'		
+				my: 'center center',		
+				at: 'center center',
+				viewport: $(window)
 				},
-			style: 'qtip-map'
+			style: { 
+					classes: tipStyle,
+					width: tipWidth
+				}
 			});
 		});
 	}
