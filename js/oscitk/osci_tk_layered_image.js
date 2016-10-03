@@ -342,42 +342,57 @@ LayeredImage.prototype.createLayerJSON = function(layerData) {
 function tooltips(e) {
   for (var i = 0; i < e.features.length; i++) {
     var f = e.features[i];
-    $(f.element).each(function() {
-		//controlling width of tooltips if needed
-		var tipWidth = f.data.properties.width;
-		//default tip style
-		var tipStyle = 'qtip-map';
-		if (f.data.properties.style) {
-			tipStyle = f.data.properties.style;
-		}
-		$(this).qtip({
-			content: {
-        		text: f.data.properties.html
-				},
-			show: {
-				effect: function() {
-					$(this).fadeTo(300, 1);
-					}
-				},
-			hide: {
-				fixed: true,
-				delay: 800,
-				effect: function() {
-					$(this).fadeTo(100, 0);
-					}
-				},
-			position: {
-				my: 'center center',		
-				at: 'center center',
-				viewport: $(window)
-				},
-			style: { 
-					classes: tipStyle,
-					width: tipWidth
-				}
-			});
-		});
+	
+	//default tip style
+	var tipStyle = 'qtip-map';
+	if (f.data.properties.style) {
+		tipStyle = f.data.properties.style;
 	}
+	
+    $(f.element).each(function() {
+		if (f.data.properties.tipvisible === false) {
+			if (f.data.properties.url) {
+				var mapUrl = f.data.properties.url;
+			}
+			$(this).hover(function() {
+				$(this).css('cursor','pointer');
+			});
+			$(this).mousedown(function() {
+			  window.open(mapUrl, '_blank');
+			});
+			$(this).attr("class", tipStyle);
+		} else {
+			//controlling width of tooltips if needed
+			var tipWidth = f.data.properties.width;
+			$(this).qtip({
+				content: {
+					text: f.data.properties.html
+					},
+				show: {
+					effect: function() {
+						$(this).fadeTo(300, 1);
+						}
+					},
+				hide: {
+					fixed: true,
+					delay: 800,
+					effect: function() {
+						$(this).fadeTo(100, 0);
+						}
+					},
+				position: {
+					my: 'center center',	
+					at: 'center center',
+					viewport: $(window)
+					},
+				style: {
+						classes: tipStyle,
+						width: tipWidth
+					}
+			});
+		}
+	});
+  }
 }
 
 LayeredImage.prototype.createLayerIIP = function(layerData) {
