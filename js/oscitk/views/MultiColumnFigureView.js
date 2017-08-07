@@ -30,10 +30,14 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 			//display figures except for ones with display set to none
 			var modelData = this.model.toJSON();
 			if (modelData.position.vertical !== "n") {
-				this.$el.css("display", "block");
+				this.$el.css("visibility", "visible");
+				this.$el.css("opacity", "1");
+				this.$el.css("z-index", "1");
 			}		
         } else {
-            this.$el.css("display", "none");
+            this.$el.css("visibility", "hidden");
+			this.$el.css("opacity", "0");
+			this.$el.css("z-index", "-1");
         }
     },
     render: function() {
@@ -68,7 +72,9 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 
         //if element should not be visible on the page, hide it and return
         if (modelData.position.vertical === "n") {
-			this.$el.css("display", "none");
+			this.$el.css("visibility", "hidden");
+			this.$el.css("opacity", "0");
+			this.$el.css("z-index", "-1");
             return true;
         }
 

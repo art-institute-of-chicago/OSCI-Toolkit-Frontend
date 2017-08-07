@@ -342,34 +342,57 @@ LayeredImage.prototype.createLayerJSON = function(layerData) {
 function tooltips(e) {
   for (var i = 0; i < e.features.length; i++) {
     var f = e.features[i];
-    $(f.element).each(function() {
-		$(this).qtip({
-			content: {
-        		text: f.data.properties.html
-				},
-			show: {
-				effect: function() {
-					$(this).fadeTo(300, 1);
-					}
-				},
-			hide: {
-				fixed: true,
-				delay: 800,
-				effect: function() {
-					$(this).fadeTo(100, 0);
-					}
-				},
-			position: {
-				target: 'mouse',
-				adjust: {
-					mouse:false
-					},
-				my: 'top left'		
-				},
-			style: 'qtip-map'
-			});
-		});
+	
+	//default tip style
+	var tipStyle = 'qtip-map';
+	if (f.data.properties.style) {
+		tipStyle = f.data.properties.style;
 	}
+	
+    $(f.element).each(function() {
+		if (f.data.properties.tipvisible === false) {
+			if (f.data.properties.url) {
+				var mapUrl = f.data.properties.url;
+			}
+			$(this).hover(function() {
+				$(this).css('cursor','pointer');
+			});
+			$(this).mousedown(function() {
+			  window.open(mapUrl, '_blank');
+			});
+			$(this).attr("class", tipStyle);
+		} else {
+			//controlling width of tooltips if needed
+			var tipWidth = f.data.properties.width;
+			$(this).qtip({
+				content: {
+					text: f.data.properties.html
+					},
+				show: {
+					effect: function() {
+						$(this).fadeTo(300, 1);
+						}
+					},
+				hide: {
+					fixed: true,
+					delay: 800,
+					effect: function() {
+						$(this).fadeTo(100, 0);
+						}
+					},
+				position: {
+					my: 'center center',	
+					at: 'center center',
+					viewport: $(window)
+					},
+				style: {
+						classes: tipStyle,
+						width: tipWidth
+					}
+			});
+		}
+	});
+  }
 }
 
 LayeredImage.prototype.createLayerIIP = function(layerData) {
@@ -1471,16 +1494,9 @@ LayeredImage.prototype.resetZoomRange = function(zoomMin) {
     zoomMin = zoomMin || 0;
     var zoomMax = 0;
     for (var i=0, count = this.layers.length; i < count; i++) {
-        if (this.layers[i].type == 'iip') {
-            if (this.layers[i].zoom_levels - 1 > zoomMax) {
-                zoomMax = this.layers[i].zoom_levels - 1;
-            }
-        }
-        else {
-            if (this.layers[i].zoom_levels > zoomMax) {
-                zoomMax = this.layers[i].zoom_levels;
-            }
-        }
+		if (this.layers[i].zoom_levels > zoomMax) {
+			zoomMax = this.layers[i].zoom_levels;
+		}  
     }
     this.map.zoomRange([zoomMin, zoomMax]);
 
