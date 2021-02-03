@@ -33,7 +33,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 				this.$el.css("visibility", "visible");
 				this.$el.css("opacity", "1");
 				this.$el.css("z-index", "1");
-			}		
+			}
         } else {
             this.$el.css("visibility", "hidden");
 			this.$el.css("opacity", "0");
@@ -46,7 +46,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 
         //calculate the size based on layout hints
         this.sizeElement();
-		
+
         //position the element on the page
         var isPositioned = this.positionElement();
 
@@ -258,7 +258,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
         if (maxPositionAttemps === positionAttempt && dimensions.columnsPerPage === 1) {
             positioned = true;
         }
-		
+
 		if (modelData.position.horizontal === 'f') {
 			positioned = true;
 		}
@@ -278,16 +278,16 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
         }
 
         var aspect = modelData.aspect;
-		
+
         if (!_.isUndefined(modelData.options.aspect) && modelData.options.aspect > 0) {
             aspect = modelData.options.aspect;
         }
-		
+
 		if (modelData.type == 'rti_viewer') {
 			var contentrti = modelData.content;
 			aspect = 900 / 600;
 		}
-		
+
 		if (modelData.type == '360_slider') {
 			var content360 = modelData.content;
 			aspect = $(content360).data('360-width') / $(content360).data('360-height');
@@ -311,7 +311,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 
         //Calculate maximum width for a figure
         if (modelData.columns > dimensions.columnsPerPage || modelData.position === 'p' || modelData.position.horizontal === 'f') {
-            width = dimensions.innerSectionWidth;
+            width = dimensions.innerSectionWidth-dimensions.gutterWidth;
             modelData.columns = dimensions.columnsPerPage;
         } else {
             width = (modelData.columns * dimensions.columnWidth) + (dimensions.gutterWidth * (modelData.columns - 1));
@@ -321,7 +321,7 @@ OsciTk.views.MultiColumnFigure = OsciTk.views.BaseView.extend({
 
         //Get the height of the caption
         var captionHeight = this.$el.find("figcaption").outerHeight(true);
-		
+
         //Calculate height of figure plus the caption
         if (aspect) {
             height = (width / aspect) + captionHeight;
